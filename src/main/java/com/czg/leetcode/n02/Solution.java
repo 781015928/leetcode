@@ -24,51 +24,53 @@ public class Solution {
      * @return
      */
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        int Base1 = 0;
-        int Base2 = 0;
-        int sum = 0;
-        ListNode var1 = l1;
-        ListNode var2 = l2;
-        ListNode varResult = null;
 
-        while (var1 != null || var2 != null) {
-            if (var1 != null) {
-                sum += var1.val * Math.pow(10, Base1++);
-                var1 = var1.next;
+        ListNode node1 = l1;
+        ListNode node2 = l2;
+
+        ListNode lastNode = null;
+        ListNode head = null;
+
+        int bit = 0;
+        while (node1 != null || node2 != null || bit > 0) {
+            int var1 = node1 != null ? node1.val : 0;
+            int var2 = node2 != null ? node2.val : 0;
+            int sum = var1 + var2 + bit;
+            bit = 0;
+            int nodeVar = 0;
+            if (sum >= 10) {
+                bit = sum / 10;
+                nodeVar = sum % 10;
+            } else {
+                nodeVar = sum;
             }
-            if (var2 != null) {
-                sum += var2.val * Math.pow(10, Base2++);
-                var2 = var2.next;
+
+            ListNode node = new ListNode(nodeVar);
+            if (head == null) {
+                head = node;
+                lastNode = head;
+            } else {
+                lastNode.next = node;
+                lastNode = node;
+            }
+            if(node1!=null) {
+                node1 = node1.next;
+            }
+            if(node2!=null) {
+                node2 = node2.next;
             }
         }
-
-        int mo = 1;
-        int pow = 10;
-        int mode = sum % pow;
-        sum = sum - mode;
-
-        varResult = new ListNode(mode);
-        while (mo > 0) {
-            mo++;
-            pow = (int) Math.pow(10, mo);
-            mode = sum % pow;
-            sum = sum - mode;
-            varResult.next = new ListNode(mode);
-
-        }
-
-
-        return varResult;
+        return head;
     }
 
     public static void main(String[] args) {
-        ListNode listNodeA = new ListNode(2);
-        listNodeA.next = new ListNode(4);
-        listNodeA.next.next = new ListNode(3);
+        ListNode listNodeA = new ListNode(5);
+        // listNodeA.next = new ListNode(4);
+        //  listNodeA.next.next = new ListNode(3);
 
         ListNode listNodeB = new ListNode(5);
-        listNodeB.next = new ListNode(6);
-        listNodeB.next.next = new ListNode(4);
+        //listNodeB.next = new ListNode(6);
+        // listNodeB.next.next = new ListNode(4);
 
         ListNode listNode = new Solution().addTwoNumbers(listNodeA, listNodeB);
         System.out.println(listNode);
@@ -85,7 +87,7 @@ public class Solution {
 
         @Override
         public String toString() {
-            return String.valueOf(val) + next;
+            return String.valueOf(val) + (next != null ? next : "");
         }
     }
 }
