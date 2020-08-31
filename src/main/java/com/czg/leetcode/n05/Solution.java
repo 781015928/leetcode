@@ -1,6 +1,8 @@
 package com.czg.leetcode.n05;
 
 
+import java.util.HashMap;
+
 /**
  * @author 陈泽功<br />
  * @ClassName: Solution <br/>
@@ -33,11 +35,28 @@ public class Solution {
         int end_pos = 0;
 
 
-        int start_pos1 = 0;
-        int end_pos1 = 0;
         for (int i = 0; i < chars.length; i++) {
+            int start = i;
+            int end = i;
 
-            for (int start = i, end = i; start >= 0 && end < chars.length; start--, end++) {//中间有一个数的
+
+            if (end + 1 < chars.length && chars[start] == chars[end + 1]) {//和下一位一样的
+                end++;
+                for (; start >= 0 && end < chars.length; start--, end++) {//中间有一个数的
+                    if (chars[start] == chars[end]) {
+                        if (end - start > maxLength) {
+                            maxLength = end - start;
+                            start_pos = start;
+                            end_pos = end;
+                        }
+                        continue;
+                    } else {
+                        break;
+                    }
+
+                }
+            }
+            for (start = i, end = i; start >= 0 && end < chars.length; start--, end++) {//中间有一个数的
                 if (chars[start] == chars[end]) {
                     if (end - start > maxLength) {
                         maxLength = end - start;
@@ -51,29 +70,34 @@ public class Solution {
 
             }
 
-            for (int start = i, end = i; start >= 0 && end < chars.length; start--, end++) {
-                if ((start == end && (end + 1 < chars.length) && chars[start] == chars[end + 1])) {
-                    if ((start == end && (end + 1 < chars.length) && chars[start] == chars[end + 1])) {
-                        //对于向后的
-                        end++;
-                    }
-                    if (end - start > maxLength) {
-                        maxLength = end - start;
-                        start_pos = start;
-                        end_pos = end;
-                    }
-                    continue;
-                } else {
-                    break;
-                }
 
-            }
         }
         if (s.length() > 1) {
             return s.substring(start_pos, end_pos + 1);
         }
         return s;
     }
+//    public String longestPalindrome(String s) {
+//        char[] chars = s.toCharArray();
+//        int maxLength = 0;
+//
+//        int start_pos = 0;
+//        int end_pos = 0;
+//
+//        HashMap<String, String> keys = new HashMap<>();
+//        for (int i = 0; i < chars.length; i++) {
+//            for (int start = i, end = i; start >= 0 && end < chars.length; start--, end++) {//中间有一个数的
+//
+//
+//
+//
+//            }
+//        }
+//        if (s.length() > 1) {
+//            return s.substring(start_pos, end_pos + 1);
+//        }
+//        return s;
+//    }
 
     public static void main(String[] args) {
         // System.out.println(new Solution().longestPalindrome("cbbd").equals("bb"));
@@ -84,10 +108,15 @@ public class Solution {
         // System.out.println(new Solution().longestPalindrome("caabcbade"));
         // System.out.println(new Solution().longestPalindrome("dabad"));
 
-       // System.out.println(new Solution().longestPalindrome("ccc"));
-       // System.out.println(new Solution().longestPalindrome("aaaa"));
+        System.out.println(new Solution().longestPalindrome("ccc"));
+        System.out.println(new Solution().longestPalindrome("aaaa"));
+        //  System.out.println(new Solution().longestPalindrome("cccc"));
+        System.out.println(new Solution().longestPalindrome("bbbcccbbb"));
+        System.out.println(new Solution().longestPalindrome("ccccc"));
+        System.out.println(new Solution().longestPalindrome("ccccc"));
         System.out.println(new Solution().longestPalindrome("cccc"));
-      //  System.out.println(new Solution().longestPalindrome("ccccc"));
+        System.out.println(new Solution().longestPalindrome("accccc"));
+        System.out.println(new Solution().longestPalindrome("bvbccccc"));
     }
 
 
