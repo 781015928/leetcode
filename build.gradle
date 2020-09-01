@@ -6,3 +6,29 @@ repositories {
 }
 
 
+def pull = task pull()
+def push = task push()
+
+pull.doLast {
+
+    def text = "git pull".execute().text;
+
+    println(text)
+
+}
+pull.group = 'git'
+
+push.doLast {
+
+    def add = "git add . ".execute().text;
+    println(add)
+
+    def commit = "git commit -m '${"gradle " + new Date()}'".execute().text;
+    println(commit)
+    def pushText = "git push origin".execute().text
+
+    println(pushText)
+
+
+}
+push.group = 'git'

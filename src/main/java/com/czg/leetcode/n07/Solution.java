@@ -26,29 +26,54 @@ public class Solution {
      *
      * @return
      */
+    final static int[] sizeTable = {10, 100, 1000, 10000, 100000, 1000000, 10000000,
+            100000000, 1000000000, Integer.MAX_VALUE};
+
+    // Requires positive x
+    int size(int x) {
+        for (int i = 0; ; i++)
+            if (x <= sizeTable[i])
+                return i == 0 ? 1 : sizeTable[i - 1];
+    }
+
     public int reverse(int x) {
+        int i1 = x * -1;
+        if (x - i1 != x * 2) {
+            return 0;
+        }
+
+        int i = (x > 0) ? 1 : -1;
         int reverse = 0;
         int remainder = x % 10;
-        int bit = x / 10;
+        int bit = size(x);
 
+        if (bit / 10 * remainder > Integer.MAX_VALUE / 10) {
+            return 0;
+        }
         reverse += (remainder * bit);
+
+
         while ((x - remainder) / 10 > 0) {
             x = (x - remainder) / 10;
             remainder = x % 10;
-            bit = x / 10;
+            bit = bit / 10;
             reverse += (remainder * bit);
         }
-        System.out.println(reverse);
-        return reverse;
+
+        return i * reverse;
     }
 
 
     public static void main(String[] args) {
         //  System.out.println(new Solution().convert2("LEETCODEISHIRING", 4).equals("LDREOEIIECIHNTSG"));
-        System.out.println(new Solution().reverse(21) == 12);
-        System.out.println(new Solution().reverse(211) == 112);
-        System.out.println(new Solution().reverse(210) == 12);
-        System.out.println(new Solution().reverse(3210) == 123);
+        //  System.out.println(new Solution().reverse(21) == 12);
+        // System.out.println(new Solution().reverse(211) == 112);
+        //  System.out.println(new Solution().reverse(210) == 12);
+        ///  System.out.println(new Solution().reverse(3210) == 123);
+        System.out.println(new Solution().reverse(-3210) == -123);
+        System.out.println(new Solution().reverse(Integer.MAX_VALUE));
+        System.out.println(new Solution().reverse(Integer.MIN_VALUE));
+        System.out.println(Integer.MIN_VALUE);
 
 
     }
