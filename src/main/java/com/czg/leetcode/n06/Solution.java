@@ -1,8 +1,6 @@
 package com.czg.leetcode.n06;
 
 
-import java.util.HashMap;
-
 /**
  * @author 陈泽功<br />
  * @ClassName: Solution <br/>
@@ -32,18 +30,16 @@ public class Solution {
      * 输出: "LDREOEIIECIHNTSG"  length = 16
      * 解释:
      * <p>
-     * L  D  R
-     * E OE II
-     * EC IH N
-     * T  S  G
+     * L  D  R    0 +groupCount    0    6     12
+     * E OE II                     1  5 7  11 13
+     * EC IH N                     2 4  8 10  14
+     * T  S  G                     3    9     15
      * <p>
      *
      * @return
      */
     public String convert(String s, int numRows) {
         char[] chars = s.toCharArray();
-
-
         int groupCount = numRows * 2 - 2;
         if (groupCount == 0) {
             groupCount = 1;
@@ -97,8 +93,8 @@ public class Solution {
 
                 x++;
                 y--;
-                if (y <0) {
-                   y=0;
+                if (y < 0) {
+                    y = 0;
                 }
 
                 down = y == 0;
@@ -116,9 +112,60 @@ public class Solution {
         return result.toString();
     }
 
+    /**
+     * * L  D  R    0 +groupCount    0    6     12
+     * * E OE II                     1  5 7  11 13
+     * * EC IH N                     2 4  8 10  14
+     * * T  S  G                     3    9     15
+     * * <p>
+     *
+     * @param s
+     * @param numRows
+     * @return
+     */
+    public String convert2(String s, int numRows) {
+        int groupCount = 2 * numRows - 2;
+        if (groupCount == 0) {
+            groupCount = 1;
+        }
+        char[] chars = s.toCharArray();
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < numRows; i++) {
+            if (i == 0) {
+                for (int j = 0; j+ i < chars.length; j += groupCount) {
+                    result.append(chars[j + i]);
+                }
+                continue;
+            }
+
+
+            if (i == numRows - 1) {
+                for (int j = 0; j+ i < chars.length; j += groupCount) {
+                    result.append(chars[j + i]);
+                }
+                continue;
+            }
+            int aCount = 2 * (numRows - i) - 2;
+            int bCount = groupCount - aCount;
+            boolean isA = false;
+            for (int j = 0; j + i < chars.length; j += (isA ? aCount : bCount)) {
+                isA = !isA;
+                result.append(chars[j + i]);
+
+            }
+        }
+        return result.toString();
+    }
 
     public static void main(String[] args) {
-        System.out.println(new Solution().convert("LEETCODEISHIRING", 3));
+        //  System.out.println(new Solution().convert2("LEETCODEISHIRING", 4).equals("LDREOEIIECIHNTSG"));
+        System.out.println(new Solution().convert2("A", 1).equals("A"));
+        System.out.println(new Solution().convert2("A", 2).equals("A"));
+        System.out.println(new Solution().convert2("AA", 2).equals("AA"));
+        System.out.println(new Solution().convert2("AAA", 3).equals("AAA"));
+        //  System.out.println(new Solution().convert2("A", 2).equals("A"));
+
+
     }
 
 
